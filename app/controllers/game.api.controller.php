@@ -13,11 +13,11 @@ class GameApiController {
 
     // /api/videojuegos (GetAll)
     public function getAll($req/*, $res*/) {
-        /*if(!$res->user) {
+        /*ESTO CREO QUE NO VA ACA PORQUE ESTO ES PARA OBTENER TODOS Y ACA NO IMPORTA. VA EN EL EDITAR O AGREGAR
+        if(!$res->user) {
             return $this->view->response("No autorizado", 401);
         }*/
-        
-        //Orden por prioridad
+
         $orderBy = "";
         $order = "asc";
 
@@ -28,28 +28,26 @@ class GameApiController {
             $order = $req->query->order;
 
         $game = $this->model->getGames($orderBy, $order);
-        
-        // mando los juegos a la vista
         return $this->view->response($game, 200);
     }
 
     // /api/videojuegos/:id
-    public function get($req, $res) {
-        // obtengo el id de la tarea desde la ruta
+    public function get($req/*, $res*/) {
+        // obtengo el id del juego desde la ruta
         $id = $req->params->id;
 
-        // obtengo la tarea de la DB
+        // obtengo el juego de la DB
         $game = $this->model->getGame($id);
 
         if(!$game) {
             return $this->view->response("el juego con el id=$id no existe", 404);
         }
 
-        // mando la tarea a la vista
+        // mando el juego a la vista
         return $this->view->response($game);
     }
     
-    // api/videojuegos/:id (DELETE)
+    // api/videojuegos/:id (DELETE) REVISAR
     public function delete($req, $res) {
         $id = $req->params->id;
 
@@ -65,7 +63,7 @@ class GameApiController {
 
     
     
-    // api/tareas (POST)
+    // api/tareas (POST) REVISAR LO DEL RES
     public function create($req, $res) {
         
         // valido los datos
@@ -85,35 +83,29 @@ class GameApiController {
             return $this->view->response("Error al insertar juego", 500);
         }
 
-        // buena práctica es devolver el recurso insertado
         $game = $this->model->getGame($id);
         return $this->view->response($game, 201);
     }
     
-
+    //REVISAR EL RES
     public function update($req, $res) {
 
         $id = $req->params->id;
         $game = $this->model->getGame($id);
 
-        if(!$game)
+        if(!$game){
             return $this->view->response('El juego no existe', 404);
+        }
 
-
-        // valido los datos
         if (empty($req->body->titulo) || empty($req->body->genero) || empty($req->body->id_plataforma)) {
             return $this->view->response('Faltan completar datos', 400);
         }
 
-        // obtengo los datos
         $titulo = $req->body->titulo;       
         $genero = $req->body->genero;       
         $plataforma = $req->body->id_plataforma;
 
-        // actualizo los datos
         $this->model->updateGame($id, $titulo, $genero, $plataforma);
-
-        // buena práctica es devolver el recurso insertado
         $game = $this->model->getGame($id);
         return $this->view->response($game, 201);
     }
