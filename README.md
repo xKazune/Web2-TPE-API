@@ -35,13 +35,15 @@ Borramos (si existe el juego) el juego que queramos.
 
 ## API PLATAFORMAS
 
-*Cambia los valores por el cual podemos ordenar, ahora pasan a ser:
-    idPlataforma
-    nombrePlataforma
-    fabricante
-    tipo
+- Cambia los valores por el cual podemos ordenar, ahora pasan a ser:
+    - idPlataforma
+    - nombrePlataforma
+    - fabricante
+    - tipo
 
-*Despues podemos realizar las mismas acciones que videojuegos, cambiando la URL a
+- Despues podemos realizar las mismas acciones que videojuegos, cambiando la URL a
 
-#### /api/plataformas o #### /api/plataformas/:id
+#### /api/plataformas 
+o 
+#### /api/plataformas/:id
 
