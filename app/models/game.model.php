@@ -43,9 +43,9 @@ class GameModel {
         return $game;
     }
 
-    //metedo DELETE REVISAR
+    //metedo DELETE
     public function eraseGame($id) {
-        $query = $this->db->prepare('DELETE FROM videojuegos WHERE id = ?');
+        $query = $this->db->prepare('DELETE FROM videojuegos WHERE id_videojuego = ?');
         $query->execute([$id]);
     }
 
@@ -59,6 +59,7 @@ class GameModel {
         return $id;
     }
 
+    //metodo PUT
     public function updateGame($id, $titulo, $genero, $plataforma) {
         $query = $this->db->prepare('UPDATE videojuegos SET titulo = ?, genero = ?, id_plataforma = ? WHERE id_videojuego = ?');
         $query->execute([$titulo, $genero, $plataforma, $id]);   

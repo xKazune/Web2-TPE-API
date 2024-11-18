@@ -12,27 +12,31 @@ class GameApiController {
     }
 
     // /api/videojuegos (GetAll)
-    public function getAll($req/*, $res*/) {
-        /*ESTO CREO QUE NO VA ACA PORQUE ESTO ES PARA OBTENER TODOS Y ACA NO IMPORTA. VA EN EL EDITAR O AGREGAR
+    public function getAll($req, $res) {
         if(!$res->user) {
             return $this->view->response("No autorizado", 401);
-        }*/
+        }
 
         $orderBy = "";
         $order = "asc";
 
-        if(isset($req->query->orderBy))
+        if(isset($req->query->orderBy)){
             $orderBy = $req->query->orderBy;
+        }
 
-        if(isset($req->query->order))
+        if(isset($req->query->order)){
             $order = $req->query->order;
+        }
 
         $game = $this->model->getGames($orderBy, $order);
         return $this->view->response($game, 200);
     }
 
-    // /api/videojuegos/:id
-    public function get($req/*, $res*/) {
+    // /api/videojuegos/:id (GET)
+    public function get($req, $res) {
+        if(!$res->user) {
+            return $this->view->response("No autorizado", 401);
+        }
         // obtengo el id del juego desde la ruta
         $id = $req->params->id;
 
@@ -44,11 +48,15 @@ class GameApiController {
         }
 
         // mando el juego a la vista
-        return $this->view->response($game);
+        return $this->view->response($game, 200);
     }
     
-    // api/videojuegos/:id (DELETE) REVISAR
+    // api/videojuegos/:id (DELETE)
     public function delete($req, $res) {
+        if(!$res->user) {
+            return $this->view->response("No autorizado", 401);
+        }
+
         $id = $req->params->id;
 
         $game = $this->model->getGame($id);
@@ -63,8 +71,11 @@ class GameApiController {
 
     
     
-    // api/tareas (POST) REVISAR LO DEL RES
+    // api/videojuegos (POST)
     public function create($req, $res) {
+        if(!$res->user) {
+            return $this->view->response("No autorizado", 401);
+        }
         
         // valido los datos
         if (empty($req->body->titulo) || empty($req->body->genero) || empty($req->body->id_plataforma)) {
@@ -87,8 +98,11 @@ class GameApiController {
         return $this->view->response($game, 201);
     }
     
-    //REVISAR EL RES
+    // api/videojuegos/:id (PUT)
     public function update($req, $res) {
+        if(!$res->user) {
+            return $this->view->response("No autorizado", 401);
+        }
 
         $id = $req->params->id;
         $game = $this->model->getGame($id);
